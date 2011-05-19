@@ -1,6 +1,6 @@
 require 'aws'
 
-module FFMpeg
+module Akoe
   class Queue
     attr_reader :title
 

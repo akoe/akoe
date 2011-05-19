@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe FFMpeg::Queue do
-  subject { FFMpeg::Queue.new("my_queue") }
+describe Akoe::Queue do
+  subject { Akoe::Queue.new("my_queue") }
   before(:all) do
     subject.clear # you must delete and rebuild a queue to *absolutely* clear it
   end
