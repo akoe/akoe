@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Akoe::Queue do
-  subject { Akoe::Queue.new("my_queue") }
+  subject { Akoe::Queue.new("my_queue#{rand(100)}") }
   before(:all) do
     subject.clear # you must delete and rebuild a queue to *absolutely* clear it
   end
