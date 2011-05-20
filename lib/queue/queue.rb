@@ -1,4 +1,5 @@
 require 'aws'
+require 'json'
 
 module Akoe
   class Queue < Aws::Sqs::Queue
@@ -10,9 +11,20 @@ module Akoe
       super(@sqs, title)
     end
 
-    def receive_message
+    def send_job(job)
+      hash = {:type => job.type,
+              :s3_source => job.s3_source,
+              :s3_destination => job.s3_destination}
+      message = hash.to_json
+      send_message(message)
+    end
+
+    def receive_job
       message = pop
-      message.body unless message.nil?
+      hash = JSON.parse(message.body) unless message.nil?
+      job = Job.new({:type => hash['type'],
+                     :s3_source => hash['s3_source'],
+                     :s3_destination => hash['s3_destination']})
     end
   end
 end

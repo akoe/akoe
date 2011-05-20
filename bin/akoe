@@ -1,7 +1,14 @@
 #!/usr/bin/ruby
 # encoding: utf-8
 
+# This program runs in an infinite loop, continually executing pending jobs
+
 require 'rubygems'
 require 'akoe'
 
 puts "testing"
+
+# while true
+#   get the next job object from the queue
+#   call the .execute method on the job object
+# end
