@@ -12,8 +12,7 @@ module Akoe
     end
 
     def send_job(job)
-      hash = {:type => job.type,
-              :s3_source => job.s3_source,
+      hash = {:s3_source => job.s3_source,
               :s3_destination => job.s3_destination}
       message = hash.to_json
       send_message(message)
@@ -21,10 +20,11 @@ module Akoe
 
     def receive_job
       message = pop
-      hash = JSON.parse(message.body) unless message.nil?
-      job = Job.new({:type => hash['type'],
-                     :s3_source => hash['s3_source'],
-                     :s3_destination => hash['s3_destination']})
+      unless message.nil?
+        hash = JSON.parse(message.body)
+        job = Job.new({:s3_source => hash['s3_source'],
+                       :s3_destination => hash['s3_destination']})
+      end
     end
   end
 end

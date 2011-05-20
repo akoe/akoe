@@ -6,8 +6,24 @@
 require 'rubygems'
 require 'akoe'
 
-puts "testing"
+puts "Running the daemon..."
 
+@queue = Akoe::Queue.new("my_queue#{rand(100)}")
+
+def push_job(index)
+  # for testing
+  job = Akoe::Job.new({:type => "transcode#{index}",
+                       :s3_source => "source/s3/file.wav#{index}",
+                       :s3_destination => "dest/s3/file.wav#{index}"})
+  @queue.send_job(job)
+end
+
+100.times do |i|
+  push_job i
+  sleep 10
+  job = @queue.receive_job
+  puts "#{i}: The received job object is: #{job}"
+end
 # while true
 #   get the next job object from the queue
 #   call the .execute method on the job object
